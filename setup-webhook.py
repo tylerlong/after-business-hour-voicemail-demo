@@ -10,31 +10,15 @@ rc.token = { 'access_token': os.getenv('RINGCENTRAL_ACCESS_TOKEN') }
 r = rc.get('/restapi/v1.0/account/~/extension')
 print(r.json())
 
+# subscribe to message-store for ALL extensions
+eventFilters = ['/restapi/v1.0/account/~/extension/' + str(extension['id']) + '/message-store' for extension in r.json()['records']]
+print(eventFilters)
 
-# RINGCENTRAL_CLIENTID = os.getenv("RINGCENTRAL_CLIENT_ID")
-# RINGCENTRAL_CLIENTSECRET = os.getenv("RINGCENTRAL_CLIENT_SECRET")
-# RINGCENTRAL_SERVER = 
-
-# RINGCENTRAL_USERNAME = '<YOUR ACCOUNT PHONE NUMBER>'
-# RINGCENTRAL_PASSWORD = '<YOUR ACCOUNT PASSWORD>'
-# RINGCENTRAL_EXTENSION = '<YOUR EXTENSION, PROBABLY "101">'
-
-# DELIVERY_ADDRESS= '<https://XXXXXXXX.ngrok.io/webhookcallback>'
-
-# rcsdk = SDK(RINGCENTRAL_CLIENTID, RINGCENTRAL_CLIENTSECRET, RINGCENTRAL_SERVER)
-# platform = rcsdk.platform()
-# platform.login(RINGCENTRAL_USERNAME, RINGCENTRAL_EXTENSION, RINGCENTRAL_PASSWORD)
-
-# try:
-#     eventFilters = ['/restapi/v1.0/account/~/extension/~/message-store/instant?type=SMS']
-#     params = {
-#         "eventFilters" : eventFilters,
-#         "deliveryMode": {
-#             "transportType": 'WebHook',
-#             "address": DELIVERY_ADDRESS
-#         }
-#     }
-#     res = platform.post("/subscription", params)
-#     return res
-# except Exception as e:
-#     return e
+r = rc.post('/restapi/v1.0/subscription', {
+    "eventFilters" : eventFilters,
+    "deliveryMode": {
+        "transportType": 'WebHook',
+        "address": os.getenv('PUBLIC_ADDRESS') + '/webhookcallback'
+    }
+})
+print(r.json())

@@ -39,6 +39,9 @@ cp .env.sample .env
 
 Edit `.env` to specify credentials.
 
+`RINGCENTRAL_ACCESS_TOKEN` is the access token to the target RingCentral account. I suppose you already have it and store it somewhere.
+For web applications, you probably got it via the 3-legged oauth flow (aka. auth code flow).
+
 
 ## Setup WebHook
 
