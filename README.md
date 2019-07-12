@@ -51,6 +51,6 @@ pipenv run python setup-webhook.py
 
 ## Test the WebHook
 
-After business hours, make a phone call the the main company number. And watch the console output of the server we started above.
+After business hours, make a phone call to the main company number. And watch the console output of the server we started above.
 
-Make sure there is notification data about voicemail created to extension B.
+Confirm there is notification data about voicemail created to extension B.
